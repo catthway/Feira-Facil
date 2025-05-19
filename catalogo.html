@@ -16,11 +16,11 @@
     img { width: 80px; border-radius: 5px; }
     .add-to-cart { background-color: #388e3c; color: white; padding: 8px 12px; border: none; cursor: pointer; border-radius: 5px; }
     .add-to-cart:hover { background-color: #2e7d32; }
+    .remove-item { background-color: #d32f2f; color: white; padding: 5px; border: none; cursor: pointer; border-radius: 3px; }
     #cart-container { margin-top: 20px; padding: 10px; background: #ffffff; border-radius: 5px; box-shadow: 0 0 5px #ccc; }
-    .payments { text-align: center; margin-top: 30px; }
-    .payments img { width: 80px; cursor: pointer; margin: 10px; }
-    #payment-info { display: none; margin-top: 15px; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 5px #ccc; text-align: center; }
-    #pix-qr { display: none; width: 150px; margin-top: 10px; }
+    #total-price { font-size: 18px; font-weight: bold; color: #d32f2f; text-align: center; margin-top: 15px; }
+    .checkout-button { background-color: #ff9800; color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer; border: none; font-size: 18px; display: block; margin: 15px auto; }
+    .checkout-button:hover { background-color: #e68a00; }
   </style>
 </head>
 <body>
@@ -37,7 +37,6 @@
     <ul>
       <li><img src="banana.jpg" alt="Banana prata"> Banana prata (kg) – R$ 6,39 <button class="add-to-cart" data-name="Banana prata" data-price="6.39">Adicionar ao Carrinho</button></li>
       <li><img src="maca.jpg" alt="Maçã Fuji"> Maçã Fuji (kg) – R$ 8,50 <button class="add-to-cart" data-name="Maçã Fuji" data-price="8.50">Adicionar ao Carrinho</button></li>
-      <li><img src="manga.jpg" alt="Manga Palmer"> Manga Palmer (kg) – R$ 6,99 <button class="add-to-cart" data-name="Manga Palmer" data-price="6.99">Adicionar ao Carrinho</button></li>
     </ul>
 
     <h2>🥬 Hortaliças</h2>
@@ -55,41 +54,18 @@
     <div id="cart-container">
       <h2>🛒 Seu Carrinho</h2>
       <ul id="cart-list"></ul>
-    </div>
-
-    <div class="payments">
-      <h2>Escolha a forma de pagamento</h2>
-      <img src="dinheiro.jpg" alt="Dinheiro" onclick="showPayment('dinheiro')">
-      <img src="cartao.jpg" alt="Cartão" onclick="showPayment('cartao')">
-      <img src="pix.jpg" alt="Pix" onclick="showPayment('pix')">
-
-      <div id="payment-info"></div>
-      <img id="pix-qr" src="qrcode.jpg" alt="QR Code Pix">
+      <p id="total-price">Total: R$ 0,00</p>
+      <button class="checkout-button" onclick="checkout()">Concluir Compra</button>
     </div>
   </div>
 
   <script>
-    function showPayment(type) {
-      let paymentInfo = document.getElementById("payment-info");
-      let pixQR = document.getElementById("pix-qr");
-
-      paymentInfo.style.display = "block";
-      pixQR.style.display = "none";
-
-      if (type === "dinheiro" || type === "cartao") {
-        paymentInfo.innerHTML = "<p>Pagar na hora da entrega ou retirada dos produtos.</p>";
-      } else if (type === "pix") {
-        paymentInfo.innerHTML = "<p>Escaneie o QR Code para pagar via Pix.</p>";
-        pixQR.style.display = "block";
-      }
-    }
-
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     document.querySelectorAll(".add-to-cart").forEach(button => {
       button.addEventListener("click", () => {
         const name = button.getAttribute("data-name");
-        const price = button.getAttribute("data-price");
+        const price = parseFloat(button.getAttribute("data-price"));
 
         cart.push({ name, price });
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -101,11 +77,35 @@
 
     function displayCart() {
       let cartList = document.getElementById("cart-list");
+      let totalPrice = document.getElementById("total-price");
       cartList.innerHTML = "";
+      let total = 0;
 
-      cart.forEach((item) => {
-        cartList.innerHTML += `<li>${item.name} - R$${item.price}</li>`;
+      cart.forEach((item, index) => {
+        total += item.price;
+        cartList.innerHTML += `<li>${item.name} - R$${item.price.toFixed(2)}
+          <button class="remove-item" onclick="removeFromCart(${index})">Remover</button></li>`;
       });
+
+      totalPrice.innerText = `Total: R$ ${total.toFixed(2)}`;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      displayCart();
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Seu carrinho está vazio! Adicione produtos antes de concluir a compra.");
+        return;
+      }
+      let total = cart.reduce((sum, item) => sum + item.price, 0);
+      alert(`Compra concluída! Valor total: R$ ${total.toFixed(2)}`);
+      cart = [];
+      localStorage.setItem("cart", JSON.stringify(cart));
+      displayCart();
     }
 
     displayCart();
