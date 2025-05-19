@@ -3,44 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Feira Fácil - Página Inicial</title>
+  <title>Feira Fácil</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #e8f5e9; }
     .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #4caf50; text-align: center; }
-    .logo img { max-width: 150px; }
-    h1 { color: #388e3c; }
+    h1, h2 { color: #388e3c; }
     p { color: #2e7d32; font-size: 18px; }
     .button { background-color: #388e3c; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 18px; margin-top: 20px; text-decoration: none; display: inline-block; }
     .button:hover { background-color: #2e7d32; }
-    .payments { margin-top: 30px; }
+    ul { list-style: none; padding: 0; }
+    li { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    img { width: 80px; border-radius: 5px; }
+    .add-to-cart { background-color: #388e3c; color: white; padding: 8px 12px; border: none; cursor: pointer; border-radius: 5px; }
+    .add-to-cart:hover { background-color: #2e7d32; }
+    #cart-container { margin-top: 20px; padding: 10px; background: #ffffff; border-radius: 5px; box-shadow: 0 0 5px #ccc; }
+    .payments { text-align: center; margin-top: 30px; }
     .payments img { width: 80px; cursor: pointer; margin: 10px; }
     #payment-info { display: none; margin-top: 15px; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 5px #ccc; }
-    #pix-qr { display: none; }
+    #pix-qr { display: none; width: 150px; margin-top: 10px; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="logo">
-      <img src="logo.png" alt="Logo Feira Fácil">
-    </div>
     <h1>Bem-vindo à Feira Fácil</h1>
     <p>Conectamos você aos melhores produtos artesanais, hortifruti e hortaliças frescas!</p>
 
-    <a href="catalogo.html" class="button">Acesse nosso Catálogo</a>
+    <button class="button" onclick="showCatalog()">Acesse nosso Catálogo</button>
 
-    <div class="payments">
-      <h2>Meios de Pagamento</h2>
-      <img src="dinheiro.jpg" alt="Dinheiro" onclick="showPayment('dinheiro')">
-      <img src="cartao.jpg" alt="Cartão" onclick="showPayment('cartao')">
-      <img src="pix.jpg" alt="Pix" onclick="showPayment('pix')">
-      
-      <div id="payment-info"></div>
-      <img id="pix-qr" src="qrcode.jpg" alt="QR Code Pix">
+    <div id="catalog" style="display: none;">
+      <h2>Catálogo</h2>
+      <p>Escolha seus produtos e finalize sua compra!</p>
+
+      <ul>
+        <li>
+          <img src="geleia.jpg" alt="Geleia caseira">
+          Geleia caseira (250g) – R$ 10,00
+          <button class="add-to-cart" data-name="Geleia caseira" data-price="10.00">Adicionar ao Carrinho</button>
+        </li>
+        <li>
+          <img src="pao.jpg" alt="Pão artesanal">
+          Pão artesanal (500g) – R$ 8,00
+          <button class="add-to-cart" data-name="Pão artesanal" data-price="8.00">Adicionar ao Carrinho</button>
+        </li>
+      </ul>
+
+      <div id="cart-container">
+        <h2>Seu Carrinho</h2>
+        <ul id="cart-list"></ul>
+      </div>
+
+      <div class="payments">
+        <h2>Escolha a forma de pagamento</h2>
+        <img src="dinheiro.jpg" alt="Dinheiro" onclick="showPayment('dinheiro')">
+        <img src="cartao.jpg" alt="Cartão" onclick="showPayment('cartao')">
+        <img src="pix.jpg" alt="Pix" onclick="showPayment('pix')">
+
+        <div id="payment-info"></div>
+        <img id="pix-qr" src="qrcode.jpg" alt="QR Code Pix">
+      </div>
     </div>
   </div>
 
   <script>
+    function showCatalog() {
+      document.getElementById("catalog").style.display = "block";
+    }
+
     function showPayment(type) {
       let paymentInfo = document.getElementById("payment-info");
       let pixQR = document.getElementById("pix-qr");
@@ -55,6 +84,39 @@
         pixQR.style.display = "block";
       }
     }
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    document.querySelectorAll(".add-to-cart").forEach(button => {
+      button.addEventListener("click", () => {
+        const name = button.getAttribute("data-name");
+        const price = button.getAttribute("data-price");
+
+        cart.push({ name, price });
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        alert(`${name} foi adicionado ao carrinho!`);
+        displayCart();
+      });
+    });
+
+    function displayCart() {
+      let cartList = document.getElementById("cart-list");
+      cartList.innerHTML = "";
+
+      cart.forEach((item, index) => {
+        cartList.innerHTML += `<li>${item.name} - R$${item.price} 
+          <button onclick="removeFromCart(${index})">Remover</button></li>`;
+      });
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      displayCart();
+    }
+
+    displayCart();
   </script>
 
 </body>
