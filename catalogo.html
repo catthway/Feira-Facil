@@ -21,6 +21,9 @@
     #total-price { font-size: 18px; font-weight: bold; color: #d32f2f; text-align: center; margin-top: 15px; }
     .checkout-button { background-color: #ff9800; color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer; border: none; font-size: 18px; display: block; margin: 15px auto; }
     .checkout-button:hover { background-color: #e68a00; }
+    #checkout-section { display: none; margin-top: 20px; padding: 10px; background: #ffffff; border-radius: 5px; box-shadow: 0 0 5px #ccc; text-align: center; }
+    #payment-options img { width: 80px; cursor: pointer; margin: 10px; }
+    #payment-info, #pix-qr { display: none; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -57,23 +60,25 @@
       <p id="total-price">Total: R$ 0,00</p>
       <button class="checkout-button" onclick="checkout()">Concluir Compra</button>
     </div>
+
+    <div id="checkout-section">
+      <h2>Resumo da Compra</h2>
+      <p id="summary"></p>
+      
+      <h2>Escolha a Forma de Pagamento</h2>
+      <div id="payment-options">
+        <img src="dinheiro.jpg" alt="Dinheiro" onclick="showPayment('dinheiro')">
+        <img src="cartao.jpg" alt="Cartão" onclick="showPayment('cartao')">
+        <img src="pix.jpg" alt="Pix" onclick="showPayment('pix')">
+      </div>
+      
+      <div id="payment-info"></div>
+      <img id="pix-qr" src="qrcode.jpg" alt="QR Code Pix">
+    </div>
   </div>
 
   <script>
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    document.querySelectorAll(".add-to-cart").forEach(button => {
-      button.addEventListener("click", () => {
-        const name = button.getAttribute("data-name");
-        const price = parseFloat(button.getAttribute("data-price"));
-
-        cart.push({ name, price });
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        alert(`${name} foi adicionado ao carrinho!`);
-        displayCart();
-      });
-    });
 
     function displayCart() {
       let cartList = document.getElementById("cart-list");
@@ -101,11 +106,8 @@
         alert("Seu carrinho está vazio! Adicione produtos antes de concluir a compra.");
         return;
       }
-      let total = cart.reduce((sum, item) => sum + item.price, 0);
-      alert(`Compra concluída! Valor total: R$ ${total.toFixed(2)}`);
-      cart = [];
-      localStorage.setItem("cart", JSON.stringify(cart));
-      displayCart();
+      document.getElementById("checkout-section").style.display = "block";
+      document.getElementById("summary").innerText = `Total da compra: R$ ${cart.reduce((sum, item) => sum + item.price, 0).toFixed(2)}`;
     }
 
     displayCart();
