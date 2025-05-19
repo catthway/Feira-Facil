@@ -8,7 +8,7 @@
     body { font-family: Arial, sans-serif; padding: 20px; background-color: #f1f8e9; }
     .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 15px #8bc34a; }
     h1, h2 { color: #388e3c; text-align: center; }
-    .back-button { display: block; margin-bottom: 20px; text-align: center; }
+    .back-button { text-align: center; margin-bottom: 20px; }
     .back-button a { background-color: #388e3c; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; }
     .back-button a:hover { background-color: #2e7d32; }
     ul { list-style: none; padding: 0; }
@@ -19,7 +19,7 @@
     #cart-container { margin-top: 20px; padding: 10px; background: #ffffff; border-radius: 5px; box-shadow: 0 0 5px #ccc; }
     .payments { text-align: center; margin-top: 30px; }
     .payments img { width: 80px; cursor: pointer; margin: 10px; }
-    #payment-info { display: none; margin-top: 15px; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 5px #ccc; }
+    #payment-info { display: none; margin-top: 15px; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 5px #ccc; text-align: center; }
     #pix-qr { display: none; width: 150px; margin-top: 10px; }
   </style>
 </head>
@@ -38,48 +38,65 @@
       <li><img src="banana.jpg" alt="Banana prata"> Banana prata (kg) – R$ 6,39 <button class="add-to-cart" data-name="Banana prata" data-price="6.39">Adicionar ao Carrinho</button></li>
       <li><img src="maca.jpg" alt="Maçã Fuji"> Maçã Fuji (kg) – R$ 8,50 <button class="add-to-cart" data-name="Maçã Fuji" data-price="8.50">Adicionar ao Carrinho</button></li>
       <li><img src="manga.jpg" alt="Manga Palmer"> Manga Palmer (kg) – R$ 6,99 <button class="add-to-cart" data-name="Manga Palmer" data-price="6.99">Adicionar ao Carrinho</button></li>
-      <li><img src="laranja.jpg" alt="Laranja pera"> Laranja pera (kg) – R$ 6,99 <button class="add-to-cart" data-name="Laranja pera" data-price="6.99">Adicionar ao Carrinho</button></li>
-      <li><img src="uva.jpg" alt="Uva Itália"> Uva Itália (kg) – R$ 9,00 <button class="add-to-cart" data-name="Uva Itália" data-price="9.00">Adicionar ao Carrinho</button></li>
     </ul>
 
     <h2>🥬 Hortaliças</h2>
     <ul>
       <li><img src="alface.jpg" alt="Alface crespa"> Alface crespa (unidade) – R$ 4,99 <button class="add-to-cart" data-name="Alface crespa" data-price="4.99">Adicionar ao Carrinho</button></li>
       <li><img src="tomate.jpg" alt="Tomate italiano"> Tomate italiano (kg) – R$ 4,00 <button class="add-to-cart" data-name="Tomate italiano" data-price="4.00">Adicionar ao Carrinho</button></li>
-      <li><img src="cebola.jpg" alt="Cebola amarela"> Cebola amarela (kg) – R$ 2,99 <button class="add-to-cart" data-name="Cebola amarela" data-price="2.99">Adicionar ao Carrinho</button></li>
-      <li><img src="cenoura.jpg" alt="Cenoura vermelha"> Cenoura vermelha (kg) – R$ 3,00 <button class="add-to-cart" data-name="Cenoura vermelha" data-price="3.00">Adicionar ao Carrinho</button></li>
-      <li><img src="batata.jpg" alt="Batata inglesa"> Batata inglesa (kg) – R$ 7,99 <button class="add-to-cart" data-name="Batata inglesa" data-price="7.99">Adicionar ao Carrinho</button></li>
     </ul>
 
     <h2>🍯 Produtos Artesanais</h2>
     <ul>
       <li><img src="geleia.jpg" alt="Geleia caseira"> Geleia caseira (250g) – R$ 10,00 <button class="add-to-cart" data-name="Geleia caseira" data-price="10.00">Adicionar ao Carrinho</button></li>
       <li><img src="pao.jpg" alt="Pão artesanal"> Pão artesanal (500g) – R$ 8,00 <button class="add-to-cart" data-name="Pão artesanal" data-price="8.00">Adicionar ao Carrinho</button></li>
-      <li><img src="queijo.jpg" alt="Queijo colonial"> Queijo colonial (kg) – R$ 35,00 <button class="add-to-cart" data-name="Queijo colonial" data-price="35.00">Adicionar ao Carrinho</button></li>
-      <li><img src="mel.jpg" alt="Mel puro"> Mel puro (500g) – R$ 25,00 <button class="add-to-cart" data-name="Mel puro" data-price="25.00">Adicionar ao Carrinho</button></li>
-      <li><img src="sabonete.jpg" alt="Sabonete natural"> Sabonete natural (unidade) – R$ 7,00 <button class="add-to-cart" data-name="Sabonete natural" data-price="7.00">Adicionar ao Carrinho</button></li>
     </ul>
 
     <div id="cart-container">
       <h2>🛒 Seu Carrinho</h2>
       <ul id="cart-list"></ul>
     </div>
+
+    <div class="payments">
+      <h2>Escolha a forma de pagamento</h2>
+      <img src="dinheiro.jpg" alt="Dinheiro" onclick="showPayment('dinheiro')">
+      <img src="cartao.jpg" alt="Cartão" onclick="showPayment('cartao')">
+      <img src="pix.jpg" alt="Pix" onclick="showPayment('pix')">
+
+      <div id="payment-info"></div>
+      <img id="pix-qr" src="qrcode.jpg" alt="QR Code Pix">
+    </div>
   </div>
 
   <script>
+    function showPayment(type) {
+      let paymentInfo = document.getElementById("payment-info");
+      let pixQR = document.getElementById("pix-qr");
+
+      paymentInfo.style.display = "block";
+      pixQR.style.display = "none";
+
+      if (type === "dinheiro" || type === "cartao") {
+        paymentInfo.innerHTML = "<p>Pagar na hora da entrega ou retirada dos produtos.</p>";
+      } else if (type === "pix") {
+        paymentInfo.innerHTML = "<p>Escaneie o QR Code para pagar via Pix.</p>";
+        pixQR.style.display = "block";
+      }
+    }
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     document.querySelectorAll(".add-to-cart").forEach(button => {
-        button.addEventListener("click", () => {
-            const name = button.getAttribute("data-name");
-            const price = button.getAttribute("data-price");
+      button.addEventListener("click", () => {
+        const name = button.getAttribute("data-name");
+        const price = button.getAttribute("data-price");
 
-            cart.push({ name, price });
-            localStorage.setItem("cart", JSON.stringify(cart));
+        cart.push({ name, price });
+        localStorage.setItem("cart", JSON.stringify(cart));
 
-            alert(`${name} foi adicionado ao carrinho!`);
-            displayCart();
-        });
+        alert(`${name} foi adicionado ao carrinho!`);
+        displayCart();
+      });
     });
 
     function displayCart() {
