@@ -22,6 +22,7 @@
         .checkout-button { background-color: #ff9800; color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer; border: none; font-size: 18px; display: block; margin: 15px auto; }
         .checkout-button:hover { background-color: #e68a00; }
         #checkout-section { display: none; margin-top: 20px; padding: 10px; background: #ffffff; border-radius: 5px; box-shadow: 0 0 5px #ccc; text-align: center; }
+        #payment-info, #pix-qr { display: none; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -56,10 +57,20 @@
         <div id="checkout-section">
             <h2>Resumo da Compra</h2>
             <p id="summary"></p>
+
+            <h2>Escolha a Forma de Pagamento</h2>
+            <div id="payment-options">
+                <img src="dinheiro.jpg" alt="Dinheiro" onclick="showPayment('dinheiro')">
+                <img src="cartao.jpg" alt="Cartão" onclick="showPayment('cartao')">
+                <img src="pix.jpg" alt="Pix" onclick="showPayment('pix')">
+            </div>
+
+            <div id="payment-info"></div>
+            <img id="pix-qr" src="qrcode.jpg" alt="QR Code Pix">
         </div>
     </div>
 
-    <script src="catalogo.js"></script>
+    <script defer src="catalogo.js"></script>
 
 </body>
 </html>
