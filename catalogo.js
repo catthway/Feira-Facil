@@ -29,19 +29,27 @@ window.onload = function() {
             let itemPrice = parseFloat(item.price) || 0;
             total += itemPrice;
             cartList.innerHTML += `<li>${item.name} - R$ ${itemPrice.toFixed(2)}
-                <button class="remove-item" onclick="removeFromCart(${index})">Remover</button></li>`;
+                <button class="remove-item" data-index="${index}">Remover</button></li>`;
         });
 
         totalPrice.innerText = `Total: R$ ${total.toFixed(2)}`;
+
+        // Adiciona evento aos botões de remoção
+        document.querySelectorAll(".remove-item").forEach(button => {
+            button.addEventListener("click", () => removeFromCart(button.dataset.index));
+        });
     }
 
     function removeFromCart(index) {
-        cart.splice(index, 1);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        displayCart();
+        index = parseInt(index);
+        if (!isNaN(index) && index >= 0 && index < cart.length) {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
     }
 
-    window.checkout = function() { // Correção para escopo global
+    window.checkout = function() {
         if (cart.length === 0) {
             alert("Seu carrinho está vazio! Adicione produtos antes de concluir a compra.");
             return;
@@ -50,9 +58,14 @@ window.onload = function() {
         document.getElementById("summary").innerText = `Total da compra: R$ ${cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0).toFixed(2)}`;
     };
 
-    window.showPayment = function(tipo) { // Função para exibir forma de pagamento
+    window.showPayment = function(tipo) {
         let paymentInfo = document.getElementById("payment-info");
         let pixQR = document.getElementById("pix-qr");
+
+        if (!paymentInfo || !pixQR) {
+            console.error("Elementos de pagamento não encontrados!");
+            return;
+        }
 
         paymentInfo.innerHTML = "";
         pixQR.style.display = "none";
