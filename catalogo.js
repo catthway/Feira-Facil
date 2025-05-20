@@ -41,14 +41,31 @@ window.onload = function() {
         displayCart();
     }
 
-    function checkout() {
+    window.checkout = function() { // Correção para escopo global
         if (cart.length === 0) {
             alert("Seu carrinho está vazio! Adicione produtos antes de concluir a compra.");
             return;
         }
         document.getElementById("checkout-section").style.display = "block";
         document.getElementById("summary").innerText = `Total da compra: R$ ${cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0).toFixed(2)}`;
-    }
+    };
+
+    window.showPayment = function(tipo) { // Função para exibir forma de pagamento
+        let paymentInfo = document.getElementById("payment-info");
+        let pixQR = document.getElementById("pix-qr");
+
+        paymentInfo.innerHTML = "";
+        pixQR.style.display = "none";
+
+        if (tipo === "dinheiro") {
+            paymentInfo.innerHTML = "<p>Pagamento em dinheiro será feito na entrega.</p>";
+        } else if (tipo === "cartao") {
+            paymentInfo.innerHTML = "<p>Pagamento com cartão será realizado na entrega.</p>";
+        } else if (tipo === "pix") {
+            paymentInfo.innerHTML = "<p>Escaneie o QR Code para pagar via Pix.</p>";
+            pixQR.style.display = "block";
+        }
+    };
 
     document.querySelectorAll(".add-to-cart").forEach(button => {
         button.addEventListener("click", () => addToCart(button));
