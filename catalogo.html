@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,11 +22,8 @@
         .checkout-button { background-color: #ff9800; color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer; border: none; font-size: 18px; display: block; margin: 15px auto; }
         .checkout-button:hover { background-color: #e68a00; }
         #checkout-section { display: none; margin-top: 20px; padding: 10px; background: #ffffff; border-radius: 5px; box-shadow: 0 0 5px #ccc; text-align: center; }
-        #payment-options img { width: 80px; cursor: pointer; margin: 10px; }
-        #payment-info, #pix-qr { display: none; margin-top: 10px; }
     </style>
 </head>
-
 <body>
 
     <div class="container">
@@ -60,72 +56,10 @@
         <div id="checkout-section">
             <h2>Resumo da Compra</h2>
             <p id="summary"></p>
-
-            <h2>Escolha a Forma de Pagamento</h2>
-            <div id="payment-options">
-                <img src="din.png" alt="Dinheiro" onclick="showPayment('dinheiro')">
-                <img src="cartao.png" alt="Cartão" onclick="showPayment('cartao')">
-                <img src="pix.png" alt="Pix" onclick="showPayment('pix')">
-            </div>
-
-            <div id="payment-info"></div>
-            <img id="pix-qr" src="qrcode.png.jpg" alt="QR Code Pix">
         </div>
     </div>
 
-    <script>
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        function displayCart() {
-            let cartList = document.getElementById("cart-list");
-            let totalPrice = document.getElementById("total-price");
-            cartList.innerHTML = "";
-            let total = 0;
-
-            cart.forEach((item, index) => {
-                let price = parseFloat(item.price) || 0; // Correção do erro
-                total += price;
-                cartList.innerHTML += `<li>${item.name} - R$${price.toFixed(2)}
-                    <button class="remove-item" onclick="removeFromCart(${index})">Remover</button></li>`;
-            });
-
-            totalPrice.innerText = `Total: R$ ${total.toFixed(2)}`;
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            localStorage.setItem("cart", JSON.stringify(cart));
-            displayCart();
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
-                alert("Seu carrinho está vazio! Adicione produtos antes de concluir a compra.");
-                return;
-            }
-            document.getElementById("checkout-section").style.display = "block";
-            document.getElementById("summary").innerText = `Total da compra: R$ ${cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0).toFixed(2)}`;
-        }
-
-        function showPayment(tipo) {
-            let paymentInfo = document.getElementById("payment-info");
-            let pixQR = document.getElementById("pix-qr");
-
-            paymentInfo.innerHTML = "";
-            pixQR.style.display = "none";
-
-            if (tipo === "dinheiro") {
-                paymentInfo.innerHTML = "<p>Pagamento em dinheiro será feito na entrega.</p>";
-            } else if (tipo === "cartao") {
-                paymentInfo.innerHTML = "<p>Pagamento com cartão será realizado na entrega.</p>";
-            } else if (tipo === "pix") {
-                paymentInfo.innerHTML = "<p>Escaneie o QR Code para pagar via Pix.</p>";
-                pixQR.style.display = "block";
-            }
-        }
-
-        displayCart();
-    </script>
+    <script src="catalogo.js"></script>
 
 </body>
 </html>
