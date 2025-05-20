@@ -70,8 +70,10 @@ window.onload = function() {
         paymentInfo.innerHTML = "";
         pixQR.style.display = "none";
 
-        if (tipo === "dinheiro" || tipo === "cartao") {
-            paymentInfo.innerHTML = "<p>Pague na hora que receber a entrega ou retirá-la.</p>";
+        if (tipo === "dinheiro") {
+            paymentInfo.innerHTML = "<p>Pague com dinheiro ao receber ou retirar sua compra.</p>";
+        } else if (tipo === "cartao") {
+            paymentInfo.innerHTML = "<p>Pague com cartão ao receber ou retirar sua compra.</p>";
         } else if (tipo === "pix") {
             paymentInfo.innerHTML = "<p>Escaneie o QR Code para pagar via Pix.</p>";
             pixQR.style.display = "block";
