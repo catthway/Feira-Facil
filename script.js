@@ -47,3 +47,20 @@ addToCartButtons.forEach(button => {
 });
 
 displayCart(); // Exibe o carrinho na carga da página
+function showPayment(tipo) {
+    let paymentInfo = document.getElementById("payment-info");
+    let pixQR = document.getElementById("pix-qr");
+
+    // Resetar a exibição
+    paymentInfo.innerHTML = "";
+    pixQR.style.display = "none";
+
+    if (tipo === "dinheiro") {
+        paymentInfo.innerHTML = "<p>Pagamento em dinheiro será feito na entrega.</p>";
+    } else if (tipo === "cartao") {
+        paymentInfo.innerHTML = "<p>Pagamento com cartão será realizado na entrega.</p>";
+    } else if (tipo === "pix") {
+        paymentInfo.innerHTML = "<p>Escaneie o QR Code para pagar via Pix.</p>";
+        pixQR.style.display = "block";
+    }
+}
