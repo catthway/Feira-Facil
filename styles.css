@@ -1,43 +1,78 @@
 body {
-    font-family: Arial, sans-serif;
-    background-image: url('background.jpg'); 
-    background-size: cover; 
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
+  font-family: Arial, sans-serif;
+  background-image: url('background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  /* Adicionado para centralizar o conteúdo do body */
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  min-height: 100vh; /* Garante que o body ocupe a altura total da viewport */
+  margin: 0; /* Remove a margem padrão do body */
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(10px); 
-    background-color: rgba(255, 255, 255, 0.2); 
-    z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: -1;
 }
 
 .container {
-    position: relative;
-    z-index: 1;
-    background: rgba(255, 255, 255, 0.9); 
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  /* A margin: auto; já centraliza horizontalmente, mas com flexbox no body, não é estritamente necessário */
+  margin: auto;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #4caf50;
+  position: relative;
+  z-index: 1;
+  /* Adicionado para centralizar o texto e os itens dentro do container */
+  text-align: center;
 }
 
-.payment-options img {
-    width: 450px;
-    height: 450px;
-    object-fit: contain;
-    display: block;
-    margin: auto;
-    cursor: pointer;
+.logo img {
+  max-width: 150px;
 }
 
-#payment-info, #pix-qr {
-    display: none;
-    text-align: center;
-    margin-top: 10px;
+h1 {
+  color: #388e3c;
+  font-size: 32px;
+}
+
+p {
+  color: #2e7d32;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #ff9800;
+}
+
+.button {
+  background-color: #388e3c;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 22px;
+  margin-top: 20px;
+  text-decoration: none;
+  display: inline-block;
+  transition: 0.3s;
+}
+
+.button:hover {
+  background-color: #2e7d32;
+  transform: scale(1.05);
 }
