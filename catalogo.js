@@ -1,12 +1,10 @@
 window.onload = function() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (!Array.isArray(cart)) cart = []; // Garante que o carrinho seja um array válido
+    if (!Array.isArray(cart)) cart = [];
 
     function addToCart(button) {
         const name = button.dataset.name;
         const price = parseFloat(button.dataset.price) || 0;
-
-        console.log("Adicionando ao carrinho:", name, price); // Depuração
 
         if (!name || isNaN(price)) {
             alert("Erro ao adicionar ao carrinho: item inválido.");
@@ -34,7 +32,6 @@ window.onload = function() {
 
         totalPrice.innerText = `Total: R$ ${total.toFixed(2)}`;
 
-        // Adiciona evento aos botões de remoção
         document.querySelectorAll(".remove-item").forEach(button => {
             button.addEventListener("click", () => removeFromCart(button.dataset.index));
         });
@@ -70,13 +67,13 @@ window.onload = function() {
         paymentInfo.innerHTML = "";
         pixQR.style.display = "none";
 
-        if (tipo === "dinheiro") {
-            paymentInfo.innerHTML = "<p>Pague com dinheiro ao receber ou retirar sua compra.</p>";
-        } else if (tipo === "cartao") {
-            paymentInfo.innerHTML = "<p>Pague com cartão ao receber ou retirar sua compra.</p>";
+        if (tipo === "dinheiro" || tipo === "cartao") {
+            paymentInfo.innerHTML = "<p>Pague quando receber ou retirar sua compra.</p>";
+            paymentInfo.style.display = "block";
         } else if (tipo === "pix") {
             paymentInfo.innerHTML = "<p>Escaneie o QR Code para pagar via Pix.</p>";
             pixQR.style.display = "block";
+            paymentInfo.style.display = "block";
         }
     };
 
@@ -86,4 +83,3 @@ window.onload = function() {
 
     displayCart();
 };
-
