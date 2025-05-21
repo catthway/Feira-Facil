@@ -1,6 +1,5 @@
 window.onload = function() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (!Array.isArray(cart)) cart = [];
+    let cart = []; // Carrinho agora é apenas uma variável temporária
 
     function addToCart(button) {
         const name = button.dataset.name;
@@ -12,7 +11,6 @@ window.onload = function() {
         }
 
         cart.push({ name, price });
-        localStorage.setItem("cart", JSON.stringify(cart));
         displayCart();
     }
 
@@ -41,7 +39,6 @@ window.onload = function() {
         index = parseInt(index);
         if (!isNaN(index) && index >= 0 && index < cart.length) {
             cart.splice(index, 1);
-            localStorage.setItem("cart", JSON.stringify(cart));
             displayCart();
         }
     }
@@ -53,28 +50,6 @@ window.onload = function() {
         }
         document.getElementById("checkout-section").style.display = "block";
         document.getElementById("summary").innerText = `Total da compra: R$ ${cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0).toFixed(2)}`;
-    };
-
-    window.showPayment = function(tipo) {
-        let paymentInfo = document.getElementById("payment-info");
-        let pixQR = document.getElementById("pix-qr");
-
-        if (!paymentInfo || !pixQR) {
-            console.error("Elementos de pagamento não encontrados!");
-            return;
-        }
-
-        paymentInfo.innerHTML = "";
-        pixQR.style.display = "none";
-
-        if (tipo === "dinheiro" || tipo === "cartao") {
-            paymentInfo.innerHTML = "<p>Pague quando receber ou retirar sua compra.</p>";
-            paymentInfo.style.display = "block";
-        } else if (tipo === "pix") {
-            paymentInfo.innerHTML = "<p>Escaneie o QR Code para pagar via Pix.</p>";
-            pixQR.style.display = "block";
-            paymentInfo.style.display = "block";
-        }
     };
 
     document.querySelectorAll(".add-to-cart").forEach(button => {
