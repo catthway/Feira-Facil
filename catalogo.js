@@ -1,5 +1,5 @@
 window.onload = function() {
-    let cart = []; // Carrinho agora é apenas uma variável temporária
+    let cart = []; // Carrinho temporário
 
     function addToCart(button) {
         const name = button.dataset.name;
@@ -48,8 +48,16 @@ window.onload = function() {
             alert("Seu carrinho está vazio! Adicione produtos antes de concluir a compra.");
             return;
         }
-        document.getElementById("checkout-section").style.display = "block";
-        document.getElementById("summary").innerText = `Total da compra: R$ ${cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0).toFixed(2)}`;
+
+        let summary = cart.map(item => `${item.name} - R$ ${item.price.toFixed(2)}`).join("%0A"); // "%0A" adiciona quebras de linha no WhatsApp
+        let totalPrice = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0).toFixed(2);
+
+        let whatsappNumber = "5542999696273"; // Substitua pelo número do WhatsApp do vendedor
+        let message = `🚀 Pedido Feira Fácil%0A%0AItens:%0A${summary}%0A%0ATotal: R$ ${totalPrice}%0A%0AComo deseja pagar?`;
+
+        let whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+        window.open(whatsappLink, "_blank"); // Abre o WhatsApp
     };
 
     document.querySelectorAll(".add-to-cart").forEach(button => {
