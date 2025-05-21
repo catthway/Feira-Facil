@@ -1,4 +1,3 @@
-/* Estilo para as duas páginas */
 body {
   font-family: Arial, sans-serif;
   background-image: url('background.jpg');
@@ -56,7 +55,7 @@ p {
   color: #ff9800;
 }
 
-.button, .checkout-button {
+.button {
   background-color: #388e3c;
   color: white;
   padding: 15px 20px;
@@ -70,19 +69,7 @@ p {
   transition: 0.3s;
 }
 
-.button:hover, .checkout-button:hover {
+.button:hover {
   background-color: #2e7d32;
   transform: scale(1.05);
-}
-
-.back-button a {
-  display: inline-block;
-  color: #2e7d32;
-  text-decoration: none;
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-.back-button a:hover {
-  color: #ff9800;
 }
