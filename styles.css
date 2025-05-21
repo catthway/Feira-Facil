@@ -28,7 +28,16 @@ body {
 }
 
 .payment-options img {
-    width: 500px;
-    height: 500px;
-    object-fit: cover;
+    width: 450px;
+    height: 450px;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+}
+
+#payment-info, #pix-qr {
+    display: none;
+    text-align: center;
+    margin-top: 10px;
 }
