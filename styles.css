@@ -5,12 +5,11 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
-  /* Adicionado para centralizar o conteúdo do body */
   display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
-  min-height: 100vh; /* Garante que o body ocupe a altura total da viewport */
-  margin: 0; /* Remove a margem padrão do body */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
 }
 
 .overlay {
@@ -26,7 +25,6 @@ body {
 
 .container {
   max-width: 800px;
-  /* A margin: auto; já centraliza horizontalmente, mas com flexbox no body, não é estritamente necessário */
   margin: auto;
   background: rgba(255, 255, 255, 0.9);
   padding: 20px;
@@ -34,7 +32,6 @@ body {
   box-shadow: 0 0 15px #4caf50;
   position: relative;
   z-index: 1;
-  /* Adicionado para centralizar o texto e os itens dentro do container */
   text-align: center;
 }
 
@@ -58,7 +55,7 @@ p {
   color: #ff9800;
 }
 
-.button {
+.button, .checkout-button {
   background-color: #388e3c;
   color: white;
   padding: 15px 20px;
@@ -72,7 +69,19 @@ p {
   transition: 0.3s;
 }
 
-.button:hover {
+.button:hover, .checkout-button:hover {
   background-color: #2e7d32;
   transform: scale(1.05);
+}
+
+.back-button a {
+  display: inline-block;
+  color: #2e7d32;
+  text-decoration: none;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.back-button a:hover {
+  color: #ff9800;
 }
