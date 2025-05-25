@@ -6,18 +6,16 @@ body, html {
   font-family: sans-serif;
 }
 
-/* Estilo do cabeçalho e logo no topo esquerdo */
+/* Estilo do cabeçalho */
 header {
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 100px; /* Defina um tamanho adequado */
-  height: auto;
-  z-index: 10; /* Certifique-se de que ele fique acima dos outros elementos */
 }
 
+/* Estilo da logo pequena */
 .logo-topo {
-  width: 80px; /* Ajuste conforme necessário */
+  width: 80px;
   height: auto;
 }
 
