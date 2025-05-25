@@ -1,3 +1,16 @@
+/* Estilo do cabeçalho */
+header {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+/* Estilo da logo pequena */
+.logo-topo {
+  width: 80px;
+  height: auto;
+}
+
 /* Reset padrão */
 body, html {
   margin: 0;
