@@ -1,95 +1,19 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: sans-serif;
-}
-
-.inicio {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.fundo {
-  background-image: url('img/fundo.jpg');
-  background-size: cover;
-  background-position: center;
-  filter: blur(8px);
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 1;
-}
-
-.conteudo-central {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.85);
-  padding: 40px;
-  border-radius: 15px;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-}
-
-.logo {
-  width: 220px;
-  margin-bottom: 40px;
-}
-
-.catalogo-btn {
-  background-color: #2e7d32;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 16px;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 20px;
-}
-.titulo {
-  text-align: center;
-  margin-top: 20px;
-  color: #2e7d32;
-}
-
-.catalogo-container {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  flex-wrap: wrap;
-}
-
-.produtos {
-  width: 60%;
-}
-
-.carrinho {
-  width: 35%;
-  background-color: #f1f1f1;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.item {
-  background: white;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.item button {
-  margin-top: 5px;
-  background-color: #2e7d32;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feira Fácil</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="inicio">
+    <div class="fundo"></div>
+    <div class="conteudo-central">
+      <img src="img/logo.png" alt="Logo Feira Fácil" class="logo" />
+      <h1>Bem-vindo à sua feira online, simples e rápida</h1>
+      <a href="catalogo.html" class="catalogo-btn">Acesse nosso catálogo</a>
+    </div>
+  </div>
+</body>
+</html>
