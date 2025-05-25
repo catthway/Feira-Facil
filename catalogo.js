@@ -1,68 +1,85 @@
-window.onload = function() {
-    let cart = [];
+let carrinho = [];
+let total = 0;
 
-    function addToCart(button) {
-        const name = button.dataset.name;
-        const price = parseFloat(button.dataset.price) || 0;
+window.adicionar = function(nome, preco) {  // Corrigido: Definição global da função
+  carrinho.push({ nome, preco });
+  total += preco;
+  atualizarCarrinho();
+};
 
-        if (!name || isNaN(price)) {
-            alert("Erro ao adicionar ao carrinho: item inválido.");
-            return;
-        }
+function atualizarCarrinho() {
+  const lista = document.getElementById("lista-carrinho");
+  const totalEl = document.getElementById("total");
+  lista.innerHTML = "";
 
-        cart.push({ name, price });
-        displayCart();
+  carrinho.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `${item.nome} - R$${item.preco.toFixed(2)} 
+      <button class="remove-btn" onclick="remover(${index})">❌</button>`;
+    lista.appendChild(li);
+  });
+
+  totalEl.textContent = total.toFixed(2);
+}
+
+window.remover = function(index) {
+  total -= carrinho[index].preco;
+  carrinho.splice(index, 1);
+  atualizarCarrinho();
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const select = document.getElementById("forma-pagamento");
+  const comprovanteContainer = document.getElementById("comprovante-container");
+  const chavePixContainer = document.getElementById("chave-pix-container");
+
+  select.addEventListener("change", () => {
+    if (select.value === "pix") {
+      comprovanteContainer.style.display = "block";
+      chavePixContainer.style.display = "block";
+      document.getElementById("link-comprovante").required = true;
+    } else {
+      comprovanteContainer.style.display = "none";
+      chavePixContainer.style.display = "none";
+      document.getElementById("link-comprovante").required = false;
     }
+  });
+});
 
-    function displayCart() {
-        let cartList = document.getElementById("cart-list");
-        let totalPrice = document.getElementById("total-price");
+window.finalizarCompra = function() {
+  if (carrinho.length === 0) {
+    alert("Carrinho vazio!");
+    return;
+  }
 
-        cartList.innerHTML = "";
-        let total = 0;
+  const formaPagamento = document.getElementById("forma-pagamento").value;
+  const comprovante = document.getElementById("link-comprovante").value.trim();
 
-        cart.forEach((item, index) => {
-            let itemPrice = parseFloat(item.price) || 0;
-            total += itemPrice;
-            cartList.innerHTML += `<li>${item.name} - R$ ${itemPrice.toFixed(2)}
-                <button class="remove-item" data-index="${index}">Remover</button></li>`;
-        });
+  if (!formaPagamento) {
+    alert("Por favor, selecione a forma de pagamento.");
+    return;
+  }
 
-        totalPrice.innerText = `Total: R$ ${total.toFixed(2)}`;
+  let mensagem = "Olá Dona Lourdes! Gostaria de fazer um pedido:%0A";
 
-        document.querySelectorAll(".remove-item").forEach(button => {
-            button.addEventListener("click", () => removeFromCart(button.dataset.index));
-        });
+  carrinho.forEach(item => {
+    mensagem += `- ${item.nome} (R$${item.preco.toFixed(2)})%0A`;
+  });
+
+  mensagem += `%0ATotal: R$${total.toFixed(2)}%0A`;
+  mensagem += `Forma de pagamento: ${formaPagamento.toUpperCase()}%0A`;
+
+  if (formaPagamento === "pix") {
+    if (!comprovante) {
+      alert("Por favor, cole o link do comprovante Pix.");
+      return;
     }
+    mensagem += `Comprovante Pix: ${comprovante}%0A`;
+    mensagem += `Pagamento já realizado. Obrigada!%0A`;
+  } else {
+    mensagem += `Pagamento será efetuado na entrega ou retirada.%0A`;
+  }
 
-    function removeFromCart(index) {
-        index = parseInt(index);
-        if (!isNaN(index) && index >= 0 && index < cart.length) {
-            cart.splice(index, 1);
-            displayCart();
-        }
-    }
-
-    window.checkout = function() {
-        if (cart.length === 0) {
-            alert("Seu carrinho está vazio! Adicione produtos antes de concluir a compra.");
-            return;
-        }
-
-        let summary = cart.map(item => `${item.name} - R$ ${item.price.toFixed(2)}`).join("%0A");
-        let totalPrice = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0).toFixed(2);
-
-        let whatsappNumber = "5542999696273";
-        let message = `🚀 Pedido Feira Fácil%0A%0AItens:%0A${summary}%0A%0ATotal: R$ ${totalPrice}%0A%0AComo deseja pagar?`;
-
-        let whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
-
-        window.open(whatsappLink, "_blank");
-    };
-
-    document.querySelectorAll(".add-to-cart").forEach(button => {
-        button.addEventListener("click", () => addToCart(button));
-    });
-
-    displayCart();
+  const link = `https://wa.me/5542999696273?text=${mensagem}`;
+  window.open(link, "_blank");
 };
