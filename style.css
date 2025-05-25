@@ -1,3 +1,4 @@
+/* Reset padrão */
 body, html {
   margin: 0;
   padding: 0;
@@ -5,6 +6,19 @@ body, html {
   font-family: sans-serif;
 }
 
+/* Estilo do cabeçalho e logo no topo esquerdo */
+header {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.logo-topo {
+  width: 80px; /* Ajuste conforme necessário */
+  height: auto;
+}
+
+/* Configuração da tela inicial */
 .inicio {
   position: relative;
   width: 100%;
@@ -23,6 +37,7 @@ body, html {
   z-index: 1;
 }
 
+/* Centralizando o conteúdo */
 .conteudo-central {
   position: absolute;
   z-index: 2;
@@ -33,14 +48,16 @@ body, html {
   padding: 40px;
   border-radius: 15px;
   text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
+/* Estilização da logo */
 .logo {
   width: 220px;
   margin-bottom: 40px;
 }
 
+/* Botão do catálogo */
 .catalogo-btn {
   background-color: #2e7d32;
   color: white;
@@ -52,12 +69,15 @@ body, html {
   display: inline-block;
   margin-top: 20px;
 }
+
+/* Título do catálogo */
 .titulo {
   text-align: center;
   margin-top: 20px;
   color: #2e7d32;
 }
 
+/* Container do catálogo */
 .catalogo-container {
   display: flex;
   justify-content: space-between;
@@ -65,10 +85,12 @@ body, html {
   flex-wrap: wrap;
 }
 
+/* Lista de produtos */
 .produtos {
   width: 60%;
 }
 
+/* Estilização do carrinho */
 .carrinho {
   width: 35%;
   background-color: #f1f1f1;
@@ -76,12 +98,13 @@ body, html {
   border-radius: 10px;
 }
 
+/* Itens do catálogo */
 .item {
   background: white;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .item button {
